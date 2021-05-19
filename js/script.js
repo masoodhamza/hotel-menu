@@ -91,12 +91,20 @@ const lunch = document.querySelector(".lunch");
 const shakes = document.querySelector(".shakes");
 const dinner = document.querySelector(".dinner");
 
-//eventer linster on all button
-all.addEventListener("click", () => {
-  menu.innerHTML = "";
+const loadPage = () => {
   items.forEach((item) => {
     generateHTML(item);
   });
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPage();
+});
+
+//eventer linster on all button
+all.addEventListener("click", () => {
+  menu.innerHTML = "";
+  loadPage();
 });
 
 //eventer linster on breakfast button
