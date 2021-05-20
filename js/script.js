@@ -17,7 +17,7 @@ const items = [
   },
   {
     id: 3,
-    title: "thalaseri Chiken Biryani",
+    title: "Chiken Biryani",
     category: "Lunch",
     price: 300,
     img: "karachi-chiken.jpg",
