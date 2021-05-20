@@ -86,10 +86,7 @@ const menu = document.querySelector(".menu");
 
 //buttons
 const all = document.querySelector(".all");
-const breakfast = document.querySelector(".breakfast");
-const lunch = document.querySelector(".lunch");
-const shakes = document.querySelector(".shakes");
-const dinner = document.querySelector(".dinner");
+const category = document.querySelectorAll(".category");
 
 const loadPage = () => {
   items.forEach((item) => {
@@ -101,54 +98,56 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPage();
 });
 
-//eventer linster on all button
-all.addEventListener("click", () => {
-  menu.innerHTML = "";
-  loadPage();
-});
+category.forEach((cat) => {
+  cat.addEventListener("click", (e) => {
+    menu.innerHTML = "";
 
-//eventer linster on breakfast button
-breakfast.addEventListener("click", () => {
-  menu.innerHTML = "";
-  items.filter((item) => {
-    if (item.category === "Breakfast") {
-      return generateHTML(item);
-    }
-  });
-});
+    const category = e.target.dataset.category;
 
-//eventer linster on lunch button
-lunch.addEventListener("click", () => {
-  menu.innerHTML = "";
-  items.filter((item) => {
-    if (item.category === "Lunch") {
-      return generateHTML(item);
-    }
-  });
-});
+    switch (category) {
+      case "all":
+        loadPage();
+        break;
 
-//eventer linster on dinner button
-dinner.addEventListener("click", () => {
-  menu.innerHTML = "";
-  items.filter((item) => {
-    if (item.category === "Dinner") {
-      return generateHTML(item);
-    }
-  });
-});
+      case "breakfast":
+        items.filter((item) => {
+          if (item.category === "Breakfast") {
+            return generateHTML(item);
+          }
+        });
+        break;
 
-//eventer linster on shakes button
-shakes.addEventListener("click", () => {
-  menu.innerHTML = "";
-  items.filter((item) => {
-    if (item.category === "Shakes") {
-      return generateHTML(item);
+      case "lunch":
+        items.filter((item) => {
+          if (item.category === "Lunch") {
+            return generateHTML(item);
+          }
+        });
+        break;
+
+      case "shakes":
+        items.filter((item) => {
+          if (item.category === "Shakes") {
+            return generateHTML(item);
+          }
+        });
+        break;
+
+      case "dinner":
+        items.filter((item) => {
+          if (item.category === "Dinner") {
+            return generateHTML(item);
+          }
+        });
+        break;
+
+      default:
+        break;
     }
   });
 });
 
 const generateHTML = (item) => {
-  console.log(item);
   menu.innerHTML += `
     <div class="col-md-6">
         <div class="card mb-3">
