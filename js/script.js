@@ -1,155 +1,67 @@
-const items = [
-  {
-    id: 1,
-    title: "Chicken Biryani",
-    category: "Lunch",
-    price: 250,
-    img: "chicken-biryani.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 2,
-    title: "Sada Biryani",
-    category: "Lunch",
-    price: 150,
-    img: "sada-biryani.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 3,
-    title: "Chiken Biryani",
-    category: "Lunch",
-    price: 300,
-    img: "karachi-chiken.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 4,
-    title: "Chapal Kabab",
-    category: "Dinner",
-    price: 100,
-    img: "chapal-kabab.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 5,
-    title: "Tika BarBQ",
-    category: "Dinner",
-    price: 200,
-    img: "tika-barbq.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 6,
-    title: "Chicken Sajji",
-    category: "Dinner",
-    price: 800,
-    img: "saji.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 7,
-    title: "Halwa Puri",
-    category: "Breakfast",
-    price: 730,
-    img: "halwa-puri.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 8,
-    title: "Siri Paya",
-    category: "Breakfast",
-    price: 500,
-    img: "Paya_Curry.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 9,
-    title: "Mutton Nihari",
-    category: "Breakfast",
-    price: 500,
-    img: "mutton-nihari.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-  {
-    id: 10,
-    title: "Milk Shake",
-    category: "Shakes",
-    price: 100,
-    img: "milkshake.jpg",
-    desc: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ad dolorum sed consequatur.",
-  },
-];
+// Your web app's Firebase configuration
+var firebaseConfig = {
+  apiKey: "AIzaSyBZSmkniySXnZlg1NBxB_xCROBf_QNaox4",
+  authDomain: "hotel-menu-757dd.firebaseapp.com",
+  projectId: "hotel-menu-757dd",
+  storageBucket: "hotel-menu-757dd.appspot.com",
+  messagingSenderId: "1031882448774",
+  appId: "1:1031882448774:web:57c49ef65e950b78009607",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase
+const db = firebase.firestore();
 
 //card to display menues
 const menu = document.querySelector(".menu");
 
 //buttons
-const all = document.querySelector(".all");
 const category = document.querySelectorAll(".category");
 
-const loadPage = () => {
-  items.forEach((item) => {
-    generateHTML(item);
-  });
+const loadPage = (category) => {
+  db.collection("menu")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((item) => {
+        if (category === "all") {
+          generateHTML(item.id, item.data());
+        } else {
+          if (category === item.data().category) {
+            generateHTML(item.id, item.data());
+          }
+        }
+      });
+    })
+    .catch((err) => console.log(err));
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadPage();
+  loadPage("all");
 });
 
 category.forEach((cat) => {
   cat.addEventListener("click", (e) => {
     menu.innerHTML = "";
-
     const category = e.target.dataset.category;
 
-    switch (category) {
-      case "all":
-        loadPage();
-        break;
-
-      case "breakfast":
-        items.filter((item) => {
-          if (item.category === "Breakfast") {
-            return generateHTML(item);
-          }
-        });
-        break;
-
-      case "lunch":
-        items.filter((item) => {
-          if (item.category === "Lunch") {
-            return generateHTML(item);
-          }
-        });
-        break;
-
-      case "shakes":
-        items.filter((item) => {
-          if (item.category === "Shakes") {
-            return generateHTML(item);
-          }
-        });
-        break;
-
-      case "dinner":
-        items.filter((item) => {
-          if (item.category === "Dinner") {
-            return generateHTML(item);
-          }
-        });
-        break;
-
-      default:
-        break;
+    if (category === "breakfast") {
+      loadPage("Breakfast");
+    } else if (category === "lunch") {
+      loadPage("Lunch");
+    } else if (category === "dinner") {
+      loadPage("Dinner");
+    } else if (category === "shakes") {
+      loadPage("Shakes");
+    } else {
+      loadPage("all");
     }
   });
 });
 
-const generateHTML = (item) => {
+const generateHTML = (id, item) => {
   menu.innerHTML += `
-    <div class="col-md-6">
+    <div class="col-md-6" data-id="${id}">
         <div class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
