@@ -8,3 +8,9 @@ body {
   font-family: "Zen Dots", cursive;
   background-color: #000;
 }
+
+.menuimg {
+  height: 210px;
+  width: 190px;
+  object-fit: cover;
+}

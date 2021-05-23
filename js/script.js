@@ -65,7 +65,7 @@ const generateHTML = (id, item) => {
         <div class="card mb-3">
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="images/${item.img}" alt="${item.title}" width="190px" height="210px">
+                    <img src="${item.img}" alt="${item.title}" width="190px" height="210px">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
